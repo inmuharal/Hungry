@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hungry — Food Delivery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --green: #06C167;
+      --green-dark: #049a52;
+      --black: #000;
+      --white: #fff;
+      --gray-50: #f6f6f6;
+      --gray-100: #eeeeee;
+      --gray-400: #8a8a8a;
+      --gray-700: #333;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -1px;
+    }
+
+    .nav-logo span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav-ghost {
+      background: none;
+      border: 1.5px solid var(--gray-100);
+      color: var(--black);
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 500px;
+      padding: 10px 22px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .btn-nav-ghost:hover {
+      background: var(--gray-50);
+    }
+
+    .btn-nav-green {
+      background: var(--green);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 14px;
+      border: none;
+      border-radius: 500px;
+      padding: 10px 22px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .btn-nav-green:hover {
+      background: var(--green-dark);
+      color: var(--white);
+    }
+
+    /* HERO */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 80px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-left {
+      max-width: 560px;
+    }
+
+    .hero-left h1 {
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .hero-left p {
+      font-size: 18px;
+      color: #aaa;
+      margin-bottom: 36px;
+    }
+
+    .hero-search {
+      display: flex;
+      align-items: center;
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 480px;
+    }
+
+    .hero-search input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 16px 18px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      color: var(--black);
+    }
+
+    .hero-search button {
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      padding: 16px 24px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+
+    .hero-search button:hover {
+      background: var(--green-dark);
+    }
+
+    .hero-right img {
+      width: 420px;
+      border-radius: 16px;
+      object-fit: cover;
+      max-height: 320px;
+    }
+
+    /* CATEGORY CHIPS */
+    .section {
+      padding: 48px 40px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .chip {
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-100);
+      border-radius: 500px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .chip:hover,
+    .chip.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    /* MENU CARDS */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .menu-card {
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      transition: box-shadow .2s, transform .2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .menu-card:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .1);
+      transform: translateY(-2px);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: var(--gray-100);
+      display: block;
+    }
+
+    .menu-card-body {
+      padding: 14px;
+    }
+
+    .menu-card-name {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .menu-card-desc {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .menu-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .menu-card-price {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .btn-order {
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 500px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .btn-order:hover {
+      background: var(--green-dark);
+      color: var(--white);
+    }
+
+    /* BANNER STRIP */
+    .banner-strip {
+      background: var(--green);
+      color: var(--white);
+      padding: 40px;
+      border-radius: 16px;
+      margin: 0 40px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .banner-strip h2 {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .banner-strip p {
+      font-size: 15px;
+      opacity: .85;
+      margin-top: 6px;
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: 500px;
+      padding: 12px 28px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity .15s;
+    }
+
+    .btn-white:hover {
+      opacity: .9;
+      color: var(--black);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      color: #888;
+      text-align: center;
+      padding: 24px 40px;
+      font-size: 14px;
+    }
+
+    footer span {
+      color: var(--white);
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-logo" href="/">HUNGRY</span></a>
+    <div class="nav-links">
+      <a href="/login" class="btn-nav-ghost">Masuk</a>
+      <a href="/register" class="btn-nav-green">Daftar Gratis</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Makanan favoritmu,<br />diantar cepat 🚀</h1>
+      <p>Pesan dari ratusan restoran terbaik di sekitarmu. Gratis ongkir pesanan pertama!</p>
+      <div class="hero-search">
+        <input type="text" placeholder="Masukkan alamatmu untuk mulai..." />
+        <button onclick="window.location='/login'">Cari Makanan</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" alt="Delicious food" />
+    </div>  
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section" style="padding-bottom:0">
+    <div class="section-title">Kategori Populer</div>
+    <div class="chips">
+      <a href="/login" class="chip active">🍔 Burger</a>
+      <a href="/login" class="chip">🍜 Mie</a>
+      <a href="/login" class="chip">🍣 Sushi</a>
+      <a href="/login" class="chip">🍕 Pizza</a>
+      <a href="/login" class="chip">🥗 Salad</a>
+      <a href="/login" class="chip">🍗 Ayam</a>
+      <a href="/login" class="chip">🥤 Minuman</a>
+      <a href="/login" class="chip">🍰 Dessert</a>
+    </div>
+  </section>
+
+  <!-- MENU GRID -->
+  <section class="section">
+    <div class="section-title">Menu Terbaru</div>
+    <div class="menu-grid">
+      <% if (data.length===0) { %>
+        <p style="color:#aaa">Belum ada menu tersedia.</p>
+        <% } %>
+          <% data.forEach(menu=> { %>
+            <a href="/login" class="menu-card">
+              <img src="<%= menu.imageUrl || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' %>"
+                alt="<%= menu.menu %>"
+                onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80'" />
+              <div class="menu-card-body">
+                <div class="menu-card-name">
+                  <%= menu.menu %>
+                </div>
+                <div class="menu-card-desc">
+                  <%= menu.description || 'Menu lezat pilihan hari ini' %>
+                </div>
+                <div class="menu-card-footer">
+                  <span class="menu-card-price">Rp <%= Number(menu.price).toLocaleString('id-ID') %></span>
+                  <span class="btn-order">+ Pesan</span>
+                </div>
+              </div>
+            </a>
+            <% }) %>
+    </div>
+  </section>
+
+  <!-- PROMO BANNER
+  <div class="banner-strip">
+    <div>
+      <h2>Daftar sekarang,<br />nikmati promo eksklusif 🎉</h2>
+      <p>Gratis ongkir untuk 3 pesanan pertamamu</p>
+    </div>
+    <a href="/register" class="btn-white">Daftar Sekarang</a>
+  </div> -->
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <span>Hungry</span> — Food Delivery Indonesia</p>
+  </footer>
+
+</body>
+
+</html>

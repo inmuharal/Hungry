@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Kelola Menu — Hungry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --green: #06C167;
+            --green-dark: #049a52;
+            --gray-50: #f6f6f6;
+            --gray-100: #eeeeee;
+            --gray-400: #8a8a8a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f6f6f6;
+            color: #000;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background: #000;
+            color: #fff;
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-logo span {
+            color: var(--green);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #888;
+            text-decoration: none;
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all .15s;
+        }
+
+        .nav-item:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: var(--green);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #888;
+            background: none;
+            border: none;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            width: 100%;
+            transition: all .15s;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 240px;
+            padding: 32px;
+            flex: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: var(--gray-400);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .15s;
+            display: inline-block;
+        }
+
+        .btn-green:hover {
+            background: var(--green-dark);
+            color: #fff;
+        }
+
+        /* NOTIFICATION */
+        .notification {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* SEARCH BAR */
+        .toolbar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid var(--gray-100);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+        }
+
+        .toolbar input {
+            width: 100%;
+            padding: 11px 14px 11px 42px;
+            border: 1.5px solid var(--gray-100);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border .15s;
+        }
+
+        .toolbar input:focus {
+            border-color: #000;
+        }
+
+        .toolbar select {
+            padding: 11px 14px;
+            border: 1.5px solid var(--gray-100);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: #fff;
+            min-width: 160px;
+            cursor: pointer;
+        }
+
+        .toolbar select:focus {
+            border-color: #000;
+        }
+
+        .btn-black {
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .15s;
+        }
+
+        .btn-black:hover {
+            background: #222;
+        }
+
+        /* TABLE */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid var(--gray-100);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            color: var(--gray-400);
+            font-weight: 700;
+            padding: 14px 16px;
+            text-align: left;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        td {
+            padding: 14px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--gray-50);
+        }
+
+        .menu-img {
+            width: 56px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: var(--gray-100);
+            display: block;
+        }
+
+        .menu-name {
+            font-weight: 700;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: #f0fdf4;
+            color: #166534;
+            border-radius: 500px;
+            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .desc-text {
+            font-size: 13px;
+            color: var(--gray-400);
+            max-width: 220px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mono-text {
+            font-size: 11px;
+            color: #aaa;
+            font-family: 'Courier New', monospace;
+            max-width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit {
+            background: none;
+            border: 1.5px solid var(--gray-100);
+            color: #000;
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .15s;
+            display: inline-block;
+        }
+
+        .btn-edit:hover {
+            border-color: #000;
+            background: var(--gray-50);
+            color: #000;
+        }
+
+        .btn-del {
+            background: none;
+            border: 1.5px solid #fca5a5;
+            color: #dc2626;
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-del:hover {
+            background: #fee2e2;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: var(--gray-400);
+            padding: 40px !important;
+            font-size: 14px;
+        }
+
+        .count-badge {
+            background: var(--gray-100);
+            color: #555;
+            border-radius: 500px;
+            padding: 3px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">HUNGRY</span></div>
+            <nav class="sidebar-nav">
+                <a href="/gobite" class="nav-item"><span>📦</span> Dashboard</a>
+                <a href="/menu" class="nav-item active"><span>🍔</span> Kelola Menu</a>
+                <a href="/" class="nav-item"><span>🏠</span> Beranda</a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a href="/logout" class="btn-logout"><span>🚪</span> Keluar</a>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main">
+            <div class="page-header">
+                <div>
+                    <h1>Kelola Menu <span class="count-badge">
+                            <%= menus.length %> item
+                        </span></h1>
+                    <p>Tambah, edit, atau hapus menu yang tersedia</p>
+                </div>
+                <a href="/menu/add" class="btn-green">+ Tambah Menu</a>
+            </div>
+
+            <!-- NOTIFICATION -->
+            <% if (notification) { %>
+                <div class="notification">🔔 <%= notification %>
+                </div>
+                <% } %>
+
+                    <!-- SEARCH + SORT TOOLBAR -->
+                    <form method="GET" action="/menu" class="toolbar">
+                        <div class="search-wrap">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" name="search" placeholder="Cari nama menu..." value="<%= search %>" />
+                        </div>
+                        <select name="sortBy">
+                            <option value="createdAt" <%=sortBy==='createdAt' ?'selected':'' %>>Urut: Terbaru</option>
+                            <option value="menu" <%=sortBy==='menu' ?'selected':'' %>>Urut: Nama A-Z</option>
+                            <option value="price" <%=sortBy==='price' ?'selected':'' %>>Urut: Harga</option>
+                        </select>
+                        <select name="sortDir">
+                            <option value="ASC" <%=sortDir==='ASC' ?'selected':'' %>>↑ Naik</option>
+                            <option value="DESC" <%=sortDir==='DESC' ?'selected':'' %>>↓ Turun</option>
+                        </select>
+                        <button type="submit" class="btn-black">Terapkan</button>
+                    </form>
+
+                    <!-- MENU TABLE -->
+                    <div class="card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Gambar</th>
+                                    <th>Nama Menu</th>
+                                    <th>Harga</th>
+                                    <th>Deskripsi</th>
+                                    <th>Instance Method</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (menus.length===0) { %>
+                                    <tr>
+                                        <td colspan="7" class="empty-row">
+                                            Tidak ada menu <% if(search){ %>untuk "<strong>
+                                                    <%= search %>
+                                                </strong>"<% } %>
+                                                    <br><a href="/menu/add"
+                                                        style="color:var(--green);font-weight:700;font-size:14px">+
+                                                        Tambah menu baru</a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% menus.forEach((m, i)=> { %>
+                                            <tr>
+                                                <td style="color:#aaa;font-weight:700">
+                                                    <%= i+1 %>
+                                                </td>
+                                                <td>
+                                                    <img src="<%= m.imageUrl || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=80' %>"
+                                                        class="menu-img"
+                                                        onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=80'" />
+                                                </td>
+                                                <td><span class="menu-name">
+                                                        <%= m.menu %>
+                                                    </span></td>
+                                                <td><span class="price-tag">
+                                                        <%= m.formattedPrice %>
+                                                    </span></td>
+                                                <td><span class="desc-text">
+                                                        <%= m.description || '—' %>
+                                                    </span></td>
+                                                <td><span class="mono-text" title="<%= m.shortSummary %>">
+                                                        <%= m.shortSummary %>
+                                                    </span></td>
+                                                <td>
+                                                    <div class="action-btns">
+                                                        <a href="/menu/edit/<%= m.id %>" class="btn-edit">Edit</a>
+                                                        <form action="/menu/delete/<%= m.id %>" method="POST"
+                                                            onsubmit="return confirm('Hapus menu \\'<%= m.menu %>\\'?')">
+                                                            <button type="submit" class="btn-del">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+        </main>
+
+    </div>
+</body>
+
+</html>
