@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard — HUNGRY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --green: #06C167;
+            --green-dark: #049a52;
+            --gray-50: #f6f6f6;
+            --gray-100: #eeeeee;
+            --gray-400: #8a8a8a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f6f6f6;
+            color: #000;
+        }
+
+        /* SIDEBAR */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: #000;
+            color: #fff;
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-logo span {
+            color: var(--green);
+        }
+
+        .sidebar-user {
+            background: #111;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 32px;
+        }
+
+        .sidebar-user .name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .sidebar-user .role {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #888;
+            text-decoration: none;
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all .15s;
+        }
+
+        .nav-item:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: var(--green);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .nav-item .icon {
+            font-size: 18px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #888;
+            background: none;
+            border: none;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            width: 100%;
+            transition: all .15s;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 240px;
+            padding: 32px;
+            flex: 1;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: var(--gray-400);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* NOTIFICATION */
+        .notification {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* STAT CARDS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: none;
+            border: 1px solid var(--gray-100);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-top: 6px;
+        }
+
+        .stat-green {
+            border-left: 4px solid var(--green);
+        }
+
+        .stat-black {
+            border-left: 4px solid #000;
+        }
+
+        .stat-gold {
+            border-left: 4px solid #f59e0b;
+        }
+
+        /* SECTION CARD */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 24px;
+            border: 1px solid var(--gray-100);
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .btn-sm-black {
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 500px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .15s;
+        }
+
+        .btn-sm-black:hover {
+            background: #222;
+            color: #fff;
+        }
+
+        .btn-sm-green {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 500px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .15s;
+        }
+
+        .btn-sm-green:hover {
+            background: var(--green-dark);
+            color: #fff;
+        }
+
+        /* ORDER TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            color: var(--gray-400);
+            font-weight: 700;
+            padding: 0 12px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        td {
+            padding: 14px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--gray-50);
+        }
+
+        .order-num {
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .name-tag {
+            font-weight: 600;
+        }
+
+        .email-tag {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .driver-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0fdf4;
+            color: #166534;
+            border-radius: 500px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .no-driver {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .menu-tag {
+            background: var(--gray-50);
+            color: #333;
+            border-radius: 500px;
+            padding: 3px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 2px;
+            display: inline-block;
+            border: 1px solid var(--gray-100);
+        }
+
+        .date-tag {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        /* MENU GRID IN DASHBOARD */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+        }
+
+        .menu-tile {
+            border: 1px solid var(--gray-100);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow .15s;
+        }
+
+        .menu-tile:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+        }
+
+        .menu-tile img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: var(--gray-100);
+            display: block;
+        }
+
+        .menu-tile-body {
+            padding: 12px;
+        }
+
+        .menu-tile-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .menu-tile-price {
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 800;
+            margin-top: 3px;
+        }
+
+        .empty {
+            color: var(--gray-400);
+            font-size: 14px;
+            padding: 24px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">HUNGRY</span></div>
+            <div class="sidebar-user">
+                <div class="name">👤 <%= userName %>
+                </div>
+                <div class="role">Logged in</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/gobite" class="nav-item active"><span class="icon">📦</span> Dashboard</a>
+                <a href="/menu" class="nav-item"><span class="icon">🍔</span> Kelola Menu</a>
+                <a href="/" class="nav-item"><span class="icon">🏠</span> Beranda</a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a href="/logout" class="btn-logout"><span>🚪</span> Keluar</a>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Ringkasan aktivitas pesanan dan menu hari ini</p>
+            </div>
+
+            <!-- NOTIFICATION FLASH -->
+            <% if (notification) { %>
+                <div class="notification">🔔 <%= notification %>
+                </div>
+                <% } %>
+
+                    <!-- STATS -->
+                    <div class="stats">
+                        <div class="stat stat-green">
+                            <div class="stat-label">Total Orders</div>
+                            <div class="stat-value">
+                                <%= orders.length %>
+                            </div>
+                        </div>
+                        <div class="stat stat-black">
+                            <div class="stat-label">Total Menu</div>
+                            <div class="stat-value">
+                                <%= menus.length %>
+                            </div>
+                        </div>
+                        <div class="stat stat-gold">
+                            <div class="stat-label">Status Layanan</div>
+                            <div class="stat-value" style="font-size:22px; padding-top:8px">🟢 Online</div>
+                        </div>
+                    </div>
+
+                    <!-- ORDERS TABLE (eager loading: Order + User + Driver + Menu) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>📦 Daftar Order</h2>
+                            <small style="color:#aaa;font-size:12px">Eager loading: Orders ➜ User, Driver, Menu</small>
+                        </div>
+                        <div style="overflow-x:auto">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Pemesan</th>
+                                        <th>Alamat</th>
+                                        <th>Driver</th>
+                                        <th>Menu</th>
+                                        <th>Waktu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (orders.length===0) { %>
+                                        <tr>
+                                            <td colspan="6" class="empty">Belum ada order</td>
+                                        </tr>
+                                        <% } %>
+                                            <% orders.forEach((order, i)=> { %>
+                                                <tr>
+                                                    <td><span class="order-num">#<%= i+1 %></span></td>
+                                                    <td>
+                                                        <div class="name-tag">
+                                                            <%= order.name %>
+                                                        </div>
+                                                        <div class="email-tag">
+                                                            <%= order.User ? order.User.email : '—' %>
+                                                        </div>
+                                                    </td>
+                                                    <td style="color:#555;font-size:13px">
+                                                        <%= order.address %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (order.Driver) { %>
+                                                            <span class="driver-chip">🏍 <%= order.Driver.name %></span>
+                                                            <% } else { %>
+                                                                <span class="no-driver">Belum ada</span>
+                                                                <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (order.Menus && order.Menus.length> 0) { %>
+                                                            <% order.Menus.forEach(m=> { %><span class="menu-tag">
+                                                                    <%= m.menu %>
+                                                                </span>
+                                                                <% }) %>
+                                                                    <% } else { %>
+                                                                        <span style="color:#aaa;font-size:13px">—</span>
+                                                                        <% } %>
+                                                    </td>
+                                                    <td class="date-tag">
+                                                        <%= formatDate(order.createdAt) %>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- MENU GRID (tabel ke-2 di halaman ini) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>🍔 Semua Menu</h2>
+                            <a href="/menu" class="btn-sm-black">Kelola Menu →</a>
+                        </div>
+                        <% if (menus.length===0) { %>
+                            <div class="empty">Belum ada menu. <a href="/menu/add"
+                                    style="color:var(--green);font-weight:700">Tambah sekarang →</a></div>
+                            <% } %>
+                                <div class="menu-grid">
+                                    <% menus.forEach(m=> { %>
+                                        <div class="menu-tile">
+                                            <img src="<%= m.imageUrl || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80' %>"
+                                                alt="<%= m.menu %>"
+                                                onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80'" />
+                                            <div class="menu-tile-body">
+                                                <div class="menu-tile-name">
+                                                    <%= m.menu %>
+                                                </div>
+                                                <div class="menu-tile-price">
+                                                    <%= m.formattedPrice %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                    </div>
+        </main>
+
+    </div>
+</body>
+
+</html>

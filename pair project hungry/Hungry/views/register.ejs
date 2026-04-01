@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Daftar — Hungry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --green: #06C167;
+            --green-dark: #049a52;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .left-panel {
+            width: 45%;
+            background: var(--green);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: #fff;
+        }
+
+        .left-headline {
+            margin-top: auto;
+            padding-bottom: 60px;
+        }
+
+        .left-headline h2 {
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 14px;
+        }
+
+        .left-headline p {
+            color: rgba(255, 255, 255, .8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .step-num {
+            background: rgba(255, 255, 255, .2);
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            padding: 48px;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .form-box h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+
+        .form-box p.sub {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .error-box {
+            background: #fff0f0;
+            border: 1px solid #fcc;
+            color: #c00;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border .15s;
+            margin-bottom: 18px;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #000;
+        }
+
+        .btn-green {
+            width: 100%;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-green:hover {
+            background: var(--green-dark);
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: -14px;
+            margin-bottom: 18px;
+        }
+
+        .footer-link {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 24px;
+        }
+
+        .footer-link a {
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LEFT BRAND PANEL -->
+    <div class="left-panel">
+        <div class="logo">HUNGRY</div>
+        <div class="left-headline">
+            <h2>Bergabung dan<br />nikmati kemudahan.</h2>
+            <p style="margin-bottom: 28px">Ribuan pilihan menu, pengiriman cepat, dan promo setiap hari.</p>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Daftar akun dalam 1 menit</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Pilih makanan favoritmu</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Makanan diantar ke pintumu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT FORM PANEL -->
+    <div class="right-panel">
+        <div class="form-box">
+            <h1>Buat Akun Baru</h1>
+            <p class="sub">Gratis, tidak perlu kartu kredit</p>
+
+            <% if (error) { %>
+                <div class="error-box">⚠️ <%= error %>
+                </div>
+                <% } %>
+
+                    <form action="/register" method="POST">
+                        <label for="name">Nama Lengkap</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required />
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="kamu@email.com" required />
+
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" required
+                            minlength="6" />
+                        <p class="hint">Gunakan kombinasi huruf dan angka</p>
+
+                        <label for="role">Tipe Akun</label>
+                        <select id="role" name="role">
+                            <option value="user">👤 User — Pesan makanan</option>
+                        </select>
+
+                        <button type="submit" class="btn-green">Daftar Sekarang →</button>
+                    </form>
+
+                    <p class="footer-link" style="margin-top:20px">
+                        Sudah punya akun? <a href="/login">Masuk</a>
+                    </p>
+                    <p class="footer-link" style="margin-top:10px">
+                        <a href="/" style="color:#aaa; font-weight:500">← Kembali ke beranda</a>
+                    </p>
+        </div>
+    </div>
+
+</body>
+
+</html>

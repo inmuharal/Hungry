@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Masuk — Hungry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --green: #06C167;
+            --green-dark: #049a52;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* LEFT PANEL */
+        .left-panel {
+            width: 45%;
+            background: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--green);
+        }
+
+        .left-headline {
+            margin-top: auto;
+            padding-bottom: 60px;
+        }
+
+        .left-headline h2 {
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 14px;
+        }
+
+        .left-headline p {
+            color: #aaa;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #1a1a1a;
+            color: #ccc;
+            border-radius: 500px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* RIGHT PANEL */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            padding: 48px;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .form-box h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+
+        .form-box p.sub {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .error-box {
+            background: #fff0f0;
+            border: 1px solid #fcc;
+            color: #c00;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: var(--radius, 8px);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border .15s;
+            margin-bottom: 18px;
+        }
+
+        input:focus {
+            border-color: #000;
+        }
+
+        .btn-black {
+            width: 100%;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-black:hover {
+            background: #222;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .footer-link {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 24px;
+        }
+
+        .footer-link a {
+            color: var(--green);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LEFT BRAND PANEL -->
+    <div class="left-panel">
+        <div class="logo">HUNGRY</span></div>
+        <div class="left-headline">
+            <h2>Makanan lezat,<br />sampai di depan pintu.</h2>
+            <p style="margin-bottom:28px">Ribuan pilihan menu dari restoran terbaik di kotamu.</p>
+            <div class="badge-row">
+                <span class="badge">🚀 Pengiriman Cepat</span>
+                <span class="badge">🍔 1000+ Menu</span>
+                <span class="badge">💳 Pembayaran Aman</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT FORM PANEL -->
+    <div class="right-panel">
+        <div class="form-box">
+            <h1>Selamat datang!</h1>
+            <p class="sub">Masuk ke akun Hungry-mu</p>
+
+            <% if (error) { %>
+                <div class="error-box">⚠️ <%= error %>
+                </div>
+                <% } %>
+
+                    <form action="/login" method="POST">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="kamu@email.com" required />
+
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required />
+
+                        <button type="submit" class="btn-black">Masuk →</button>
+                    </form>
+
+                    <div class="divider">atau</div>
+
+                    <p class="footer-link">
+                        Belum punya akun? <a href="/register">Daftar Gratis</a>
+                    </p>
+                    <p class="footer-link" style="margin-top:10px">
+                        <a href="/" style="color:#aaa; font-weight:500">← Kembali ke beranda</a>
+                    </p>
+        </div>
+    </div>
+
+</body>
+
+</html>
