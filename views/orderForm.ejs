@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Order – HUNGRY UP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      background: #FFF8F0;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 36px rgba(192, 57, 43, .13);
+      padding: 40px;
+      border-top: 4px solid #D4A017;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      color: #3E1F0D;
+    }
+
+    .form-label {
+      font-weight: 700;
+      color: #3E1F0D;
+    }
+
+    .form-control,
+    .form-select {
+      border: 2px solid #E8C9A0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #C0392B;
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, .12);
+    }
+
+    .form-check-input:checked {
+      background-color: #C0392B;
+      border-color: #C0392B;
+    }
+
+    .form-check-label {
+      font-weight: 600;
+      color: #3E1F0D;
+    }
+
+    .menus-box {
+      background: #FFF8F0;
+      border: 2px solid #E8C9A0;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .btn-save-order {
+      background: linear-gradient(135deg, #C0392B, #E74C3C);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-weight: 800;
+      padding: 12px;
+      font-size: 1rem;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .btn-save-order:hover {
+      opacity: .87;
+      transform: scale(1.02);
+      color: #fff;
+    }
+
+    .alert-danger {
+      border-radius: 14px;
+      border: none;
+      background: #FFF0F0;
+      color: #8B0000;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <% const formInput=typeof oldInput !=="undefined" ? oldInput : { name: "" , address: "" , DriverId: "" , price: "" };
+    %>
+    <%- include("navbar", { search: "" }) %>
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="form-card">
+              <h3 class="form-title mb-4">🛒 Add Order</h3>
+              <% if (errors.length) { %>
+                <div class="alert alert-danger">
+                  <ul class="mb-0">
+                    <% errors.forEach(e=> { %><li>
+                        <%= e %>
+                      </li>
+                      <% }) %>
+                  </ul>
+                </div>
+                <% } %>
+                  <form action="/orders/add" method="post" id="order-form">
+                    <% const selectedIds=typeof preselectedMenuIds !=="undefined" ? preselectedMenuIds : []; %>
+                      <div class="mb-3">
+                        <label class="form-label">Order Name</label>
+                        <input type="text" name="name" class="form-control" value="<%= formInput.name %>"
+                          placeholder="e.g. Makan Siang" required>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" name="address" class="form-control" value="<%= formInput.address %>"
+                          placeholder="Min. 15 karakter" required minlength="15" maxlength="255">
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">🚗 Driver</label>
+                        <select name="DriverId" class="form-select" required>
+                          <option value="">-- Pilih Driver --</option>
+                          <% drivers.forEach(driver=> { %>
+                            <option value="<%= driver.id %>" <%=String(formInput.DriverId)===String(driver.id)
+                              ? "selected" : "" %>><%= driver.name %> - <%= driver.phoneNumber %>
+                            </option>
+                            <% }) %>
+                        </select>
+                      </div>
+                      <div class="mb-4">
+                        <label class="form-label">🍽️ Menus</label>
+                        <div class="menus-box">
+                          <% menus.forEach(menu=> { %>
+                            <div class="form-check mb-2">
+                              <input class="form-check-input" type="checkbox" name="menuIds" value="<%= menu.id %>"
+                                id="menu-<%= menu.id %>" <%=selectedIds.includes(String(menu.id)) ? "checked" : "" %>>
+                              <label class="form-check-label" for="menu-<%= menu.id %>">
+                                🍔 <%= menu.menu %> <span style="color:#C0392B;font-weight:700;">(Rp <%= menu.price %>
+                                      )</span>
+                              </label>
+                            </div>
+                            <% }) %>
+                        </div>
+                      </div>
+                      <button class="btn btn-save-order w-100">💾 Save Order</button>
+                  </form>
+                  <script>
+                    (function () {
+                      const form = document.getElementById("order-form");
+                      if (!form) return;
+                      form.addEventListener("submit", function (event) {
+                        if (!form.querySelectorAll('input[name="menuIds"]:checked').length) {
+                          event.preventDefault();
+                          alert("Pilih minimal 1 menu terlebih dahulu.");
+                        }
+                      });
+                    })();
+                  </script>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

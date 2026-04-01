@@ -1,0 +1,57 @@
+<style>
+  .navbar-appetite {
+    background: #3E1F0D;
+    box-shadow: 0 3px 16px rgba(62, 31, 13, .4);
+  }
+
+  .navbar-appetite .navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #D4A017 !important;
+    letter-spacing: .5px;
+  }
+
+  .btn-nav-login {
+    background: linear-gradient(135deg, #C0392B, #E74C3C);
+    color: #fff !important;
+    font-weight: 800;
+    border: none;
+    border-radius: 50px;
+    padding: 7px 22px;
+    transition: opacity .2s, transform .2s;
+  }
+
+  .btn-nav-login:hover {
+    opacity: .85;
+    transform: scale(1.04);
+  }
+
+  .btn-nav-register {
+    background: linear-gradient(135deg, #D4A017, #E67E22);
+    color: #fff !important;
+    font-weight: 800;
+    border: none;
+    border-radius: 50px;
+    padding: 7px 22px;
+    transition: opacity .2s, transform .2s;
+  }
+
+  .btn-nav-register:hover {
+    opacity: .85;
+    transform: scale(1.04);
+  }
+</style>
+<link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@600;700;800&display=swap"
+  rel="stylesheet">
+
+<nav class="navbar navbar-expand-lg navbar-appetite">
+  <div class="container">
+    <a class="navbar-brand" href="/">🍖 HUNGRY UP</a>
+    <div class="d-flex gap-2">
+      <a href="/login" class="btn btn-nav-login">Login</a>
+      <a href="/register" class="btn btn-nav-register">Register</a>
+    </div>
+  </div>
+</nav>

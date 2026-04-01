@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – HUNGRY UP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #3E1F0D 0%, #6B2D0F 50%, #C0392B 100%);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    .login-card {
+      background: #FFF8F0;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(62, 31, 13, .45);
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 420px;
+      border-top: 5px solid #D4A017;
+    }
+
+    .login-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2rem;
+      color: #3E1F0D;
+      margin-bottom: 2px;
+    }
+
+    .login-logo span {
+      color: #C0392B;
+    }
+
+    .login-sub {
+      color: #9B5A35;
+      font-weight: 600;
+      font-size: .92rem;
+      margin-bottom: 28px;
+    }
+
+    .form-label {
+      font-weight: 700;
+      color: #3E1F0D;
+    }
+
+    .form-control {
+      border: 2px solid #E8C9A0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .form-control:focus {
+      border-color: #C0392B;
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, .15);
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #C0392B, #E74C3C);
+      color: #fff;
+      font-weight: 800;
+      border: none;
+      border-radius: 50px;
+      padding: 12px;
+      font-size: 1rem;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .btn-login:hover {
+      opacity: .87;
+      transform: scale(1.02);
+      color: #fff;
+    }
+
+    .login-footer {
+      color: #9B5A35;
+      margin-top: 18px;
+      font-size: .93rem;
+    }
+
+    .login-footer a {
+      color: #C0392B;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .alert-danger {
+      border-radius: 12px;
+      border: none;
+      background: #FFF0F0;
+      color: #8B0000;
+      font-weight: 600;
+    }
+
+    .alert-success {
+      border-radius: 12px;
+      border: none;
+      background: #F5FFF0;
+      color: #1a6a1a;
+      font-weight: 600;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, .25);
+      color: #FFF8F0;
+      text-align: center;
+      padding: 12px;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">🍖 HUNGRY <span>UP</span></div>
+      <div class="login-sub">Masuk dan nikmati kelezatan favoritmu!</div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger">
+          <%= error %>
+        </div>
+        <% } %>
+          <% if (success) { %>
+            <div class="alert alert-success">
+              <%= success %>
+            </div>
+            <% } %>
+
+              <form action="/login" method="post">
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" name="email" class="form-control" placeholder="email@kamu.com">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" name="password" class="form-control" placeholder="••••••••">
+                </div>
+                <button class="btn btn-login w-100 mt-2">Masuk Sekarang 🍽️</button>
+              </form>
+              <p class="login-footer text-center">Belum punya akun? <a href="/register">Daftar sekarang</a></p>
+    </div>
+  </div>
+  <footer>© 2026 HUNGRY UP 🍖 — Food Delivery App</footer>
+</body>
+
+</html>

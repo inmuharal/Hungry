@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice <%= invoiceNumber %>
+    </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            font-size: 14px;
+            padding: 40px 20px;
+        }
+
+        .invoice-wrapper {
+            max-width: 780px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .10);
+            overflow: hidden;
+        }
+
+        /* ── HEADER ── */
+        .invoice-header {
+            background: #111;
+            color: #fff;
+            padding: 36px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .invoice-header .brand {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .invoice-header .brand span {
+            color: #06C167;
+        }
+
+        .invoice-header .meta {
+            text-align: right;
+        }
+
+        .invoice-header .meta .inv-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #06C167;
+            margin-bottom: 4px;
+        }
+
+        .invoice-header .meta .inv-date {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* ── BODY ── */
+        .invoice-body {
+            padding: 40px 48px;
+        }
+
+        /* Addresses */
+        .address-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 36px;
+        }
+
+        .address-block .label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .address-block .name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .address-block p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        /* Divider */
+        .divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 32px 0;
+        }
+
+        /* Line items table */
+        table.items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 32px;
+        }
+
+        table.items-table thead th {
+            background: #f7f7f7;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            border-bottom: 2px solid #eee;
+        }
+
+        table.items-table thead th:last-child {
+            text-align: right;
+        }
+
+        table.items-table tbody td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            color: #333;
+        }
+
+        table.items-table tbody td:last-child {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        table.items-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Totals */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 32px;
+        }
+
+        .totals-table {
+            width: 280px;
+        }
+
+        .totals-table .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .totals-table .row.total {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            border-bottom: none;
+            padding-top: 14px;
+        }
+
+        .totals-table .row.total .amount {
+            color: #06C167;
+        }
+
+        /* Driver note */
+        .driver-note {
+            background: #f7f7f7;
+            border-left: 4px solid #06C167;
+            border-radius: 4px;
+            padding: 14px 18px;
+            margin-bottom: 32px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        .driver-note strong {
+            color: #111;
+        }
+
+        /* Footer */
+        .invoice-footer {
+            background: #f7f7f7;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .invoice-footer p {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .invoice-footer .print-btn {
+            background: #111;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .invoice-footer .print-btn:hover {
+            background: #06C167;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #444;
+            font-size: 13px;
+        }
+
+        .back-link:hover {
+            color: #06C167;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .invoice-wrapper {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .invoice-footer .print-btn,
+            a.back-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="/orders" class="back-link">← Back to Orders</a>
+
+    <div class="invoice-wrapper">
+
+        <!-- Header -->
+        <div class="invoice-header">
+            <div>
+                <div class="brand">HUNGRY<span>UP</span></div>
+                <p style="color:#aaa;font-size:12px;margin-top:6px;">
+                    <%= seller.address %>
+                </p>
+                <p style="color:#aaa;font-size:12px;">
+                    <%= seller.phone %> · <%= seller.email %>
+                </p>
+            </div>
+            <div class="meta">
+                <div class="inv-number">
+                    <%= invoiceNumber %>
+                </div>
+                <div class="inv-date">Date: <%= invoiceDate %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="invoice-body">
+
+            <!-- From / To -->
+            <div class="address-grid">
+                <div class="address-block">
+                    <div class="label">From</div>
+                    <div class="name">
+                        <%= seller.name %>
+                    </div>
+                    <p>
+                        <%= seller.address %><br>
+                            <%= seller.email %>
+                    </p>
+                </div>
+                <div class="address-block">
+                    <div class="label">Bill To</div>
+                    <div class="name">
+                        <%= order.User ? order.User.name : order.name %>
+                    </div>
+                    <p>
+                        <%= order.address %><br>
+                            <% if (order.User) { %>
+                                <%= order.User.email %>
+                                    <% } %>
+                    </p>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Order Info Banner -->
+            <div class="driver-note">
+                <strong>Order:</strong>
+                <%= order.name %> &nbsp;|&nbsp;
+                    <strong>Driver:</strong>
+                    <% if (order.Driver) { %>
+                        <%= order.Driver.name %> (<%= order.Driver.license %>) · <%= order.Driver.phoneNumber %>
+                                    <% } else { %>
+                                        –
+                                        <% } %>
+            </div>
+
+            <!-- Line Items -->
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% lineItems.forEach(function(item, i) { %>
+                        <tr>
+                            <td style="color:#aaa">
+                                <%= i + 1 %>
+                            </td>
+                            <td><strong>
+                                    <%= item.name %>
+                                </strong></td>
+                            <td>
+                                <%= item.quantity %>
+                            </td>
+                            <td>
+                                <%= formatRupiah(item.price) %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% if (lineItems.length===0) { %>
+                                <tr>
+                                    <td colspan="4" style="text-align:center;color:#aaa;padding:24px;">No items found.
+                                    </td>
+                                </tr>
+                                <% } %>
+                </tbody>
+            </table>
+
+            <!-- Totals -->
+            <div class="totals-section">
+                <div class="totals-table">
+                    <div class="row">
+                        <span>Subtotal</span>
+                        <span>
+                            <%= formatRupiah(subtotal) %>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span>Tax (0%)</span>
+                        <span>
+                            <%= formatRupiah(0) %>
+                        </span>
+                    </div>
+                    <div class="row total">
+                        <span>Total</span>
+                        <span class="amount">
+                            <%= formatRupiah(subtotal) %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /invoice-body -->
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <p>Thank you for your order! 🍔</p>
+            <button class="print-btn" onclick="window.print()">🖨️ Print Invoice</button>
+        </div>
+
+    </div><!-- /invoice-wrapper -->
+
+</body>
+
+</html>

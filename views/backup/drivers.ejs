@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drivers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <%- include("navbar", { search: "" }) %>
+  <div class="container py-4">
+    <h3 class="mb-4">Driver List</h3>
+    <% if (data.length === 0) { %>
+      <div class="alert alert-info">Belum ada driver terdaftar.</div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover bg-white shadow-sm">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Driver Name</th>
+              <th>Phone</th>
+              <th>License</th>
+              <th>Orders</th>
+              <th>Ordered Food</th>
+              <th>Total Orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach((driver, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><strong><%= driver.name %></strong></td>
+                <td><%= driver.phoneNumber %></td>
+                <td><%= driver.license %></td>
+                <td>
+                  <% if (driver.Orders && driver.Orders.length) { %>
+                    <ul class="mb-0 ps-3">
+                      <% driver.Orders.forEach(order => { %>
+                        <li>
+                          <span class="fw-semibold"><%= order.name %></span>
+                          <span class="text-muted small"> – <%= order.address %></span>
+                          <% if (order.User) { %>
+                            <br><span class="badge bg-secondary"><%= order.User.name %></span>
+                          <% } %>
+                        </li>
+                      <% }) %>
+                    </ul>
+                  <% } else { %>
+                    <span class="text-muted">–</span>
+                  <% } %>
+                </td>
+                <td>
+                  <% if (driver.Orders && driver.Orders.length) { %>
+                    <%
+                      const allMenus = [];
+                      driver.Orders.forEach(order => {
+                        if (order.Menus && order.Menus.length) {
+                          order.Menus.forEach(m => allMenus.push(m.menu));
+                        }
+                      });
+                    %>
+                    <% if (allMenus.length) { %>
+                      <ul class="mb-0 ps-3">
+                        <% allMenus.forEach(menuName => { %>
+                          <li><%= menuName %></li>
+                        <% }) %>
+                      </ul>
+                    <% } else { %>
+                      <span class="text-muted">–</span>
+                    <% } %>
+                  <% } else { %>
+                    <span class="text-muted">–</span>
+                  <% } %>
+                </td>
+                <td>
+                  <span class="badge bg-dark fs-6">
+                    <%= (driver.Orders && driver.Orders.length) ? driver.Orders.length : 0 %>
+                  </span>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

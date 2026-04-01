@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menus – HUNGRY UP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      background: #FFF8F0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      color: #3E1F0D;
+    }
+
+    .section-title span {
+      color: #C0392B;
+    }
+
+    .card {
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      transition: transform .28s, box-shadow .28s;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 16px 40px rgba(192, 57, 43, .2) !important;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: #3E1F0D;
+    }
+
+    .card-footer {
+      background: #fff;
+      border-top: 1px solid #F0D8C0;
+    }
+
+    .price-text {
+      color: #C0392B;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .btn-order-card {
+      background: linear-gradient(135deg, #C0392B, #E74C3C);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-weight: 800;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .btn-order-card:hover {
+      opacity: .86;
+      color: #fff;
+      transform: scale(1.03);
+    }
+
+    .btn-add-menu {
+      background: linear-gradient(135deg, #D4A017, #E67E22);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-weight: 800;
+      padding: 8px 22px;
+      transition: opacity .2s;
+    }
+
+    .btn-add-menu:hover {
+      opacity: .86;
+      color: #fff;
+    }
+
+    .form-select,
+    .form-control {
+      border: 2px solid #E8C9A0;
+      border-radius: 50px;
+      padding: 7px 16px;
+      background: #fff;
+    }
+
+    .form-select:focus,
+    .form-control:focus {
+      border-color: #C0392B;
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, .12);
+    }
+
+    .btn-apply {
+      border: 2px solid #C0392B;
+      color: #C0392B;
+      background: transparent;
+      border-radius: 50px;
+      font-weight: 700;
+      padding: 7px 18px;
+      transition: all .2s;
+    }
+
+    .btn-apply:hover {
+      background: #C0392B;
+      color: #fff;
+    }
+
+    .alert-danger {
+      border-radius: 14px;
+      border: none;
+      background: #FFF0F0;
+      color: #8B0000;
+      font-weight: 600;
+    }
+
+    /* Modal */
+    .modal-header {
+      background: linear-gradient(135deg, #3E1F0D, #6B2D0F);
+      color: #FFF8F0;
+    }
+
+    .btn-modal-submit {
+      background: linear-gradient(135deg, #C0392B, #E74C3C);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-weight: 800;
+      padding: 10px 28px;
+      transition: opacity .2s;
+    }
+
+    .btn-modal-submit:hover {
+      opacity: .87;
+      color: #fff;
+    }
+
+    .btn-modal-cancel {
+      border: 2px solid #C0392B;
+      color: #C0392B;
+      background: transparent;
+      border-radius: 50px;
+      font-weight: 700;
+      padding: 8px 20px;
+      transition: all .2s;
+    }
+
+    .btn-modal-cancel:hover {
+      background: #C0392B;
+      color: #fff;
+    }
+
+    .food-info-box {
+      background: #FFF8F0;
+      border: 1px solid #E8C9A0;
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include("navbar", { search }) %>
+    <div class="container py-4">
+
+      <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible fade show">
+          <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="section-title mb-0">Menu <span>List</span> 🍽️</h3>
+            <div class="d-flex gap-2">
+              <form method="get" action="/menus" class="d-flex gap-2">
+                <input type="hidden" name="search" value="<%= search || '' %>">
+                <select name="sort" class="form-select">
+                  <option value="">Sort by</option>
+                  <option value="price_asc" <%=sort==="price_asc" ? "selected" : "" %>>💰 Price Asc</option>
+                  <option value="price_desc" <%=sort==="price_desc" ? "selected" : "" %>>💸 Price Desc</option>
+                </select>
+                <button class="btn btn-apply">Apply</button>
+              </form>
+              <% if (userRole==="penjual" ) { %>
+                <a href="/menus/add" class="btn btn-add-menu">+ Add Menu</a>
+                <% } %>
+            </div>
+          </div>
+
+          <div class="row">
+            <% data.forEach(menu=> { %>
+              <div class="col-md-4 mb-4">
+                <div class="card shadow h-100">
+                  <img src="<%= menu.imageUrl %>" class="card-img-top" style="height:185px;object-fit:cover;"
+                    alt="<%= menu.menu %>">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= menu.menu %>
+                    </h5>
+                    <p class="price-text mb-1">
+                      <%= menu.priceToRupiah %>
+                    </p>
+                    <p class="small text-muted">
+                      <%= menu.description %>
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <button class="btn btn-order-card w-100" data-bs-toggle="modal" data-bs-target="#orderModal"
+                      data-menu-id="<%= menu.id %>" data-menu-name="<%= menu.menu %>"
+                      data-menu-price="<%= menu.priceToRupiah %>">🛒 Order</button>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+          </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:20px;overflow:hidden;">
+          <div class="modal-header">
+            <h5 class="modal-title" style="font-family:'Playfair Display',serif;">🛒 Order: <span
+                id="modal-menu-name"></span></h5>
+            <button type="button" class="btn-close" style="filter:invert(1);" data-bs-dismiss="modal"></button>
+          </div>
+          <form action="/orders/add" method="post" id="quick-order-form">
+            <div class="modal-body">
+              <input type="hidden" name="menuIds" id="modal-menu-id">
+              <div class="mb-3">
+                <label class="form-label fw-bold" style="color:#3E1F0D;">Order Name</label>
+                <input type="text" name="name" class="form-control" placeholder="e.g. Makan Siang" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold" style="color:#3E1F0D;">Delivery Address</label>
+                <input type="text" name="address" class="form-control" placeholder="Min. 15 karakter" minlength="15"
+                  maxlength="255" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold" style="color:#3E1F0D;">🚗 Pilih Driver</label>
+                <select name="DriverId" class="form-select" required>
+                  <option value="">-- Select a Driver --</option>
+                  <% drivers.forEach(driver=> { %>
+                    <option value="<%= driver.id %>">
+                      <%= driver.name %> | <%= driver.phoneNumber %> | 🪪 <%= driver.license %>
+                    </option>
+                    <% }) %>
+                </select>
+              </div>
+              <div class="food-info-box">
+                <span class="fw-bold" style="color:#3E1F0D;">🍔 Food:</span>
+                <span id="modal-menu-display"></span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-modal-submit">Place Order →</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const orderModal = document.getElementById('orderModal');
+      orderModal.addEventListener('show.bs.modal', function (event) {
+        const btn = event.relatedTarget;
+        document.getElementById('modal-menu-id').value = btn.getAttribute('data-menu-id');
+        document.getElementById('modal-menu-name').textContent = btn.getAttribute('data-menu-name');
+        document.getElementById('modal-menu-display').textContent =
+          btn.getAttribute('data-menu-name') + '  —  ' + btn.getAttribute('data-menu-price');
+        const form = document.getElementById('quick-order-form');
+        form.querySelector('[name="name"]').value = '';
+        form.querySelector('[name="address"]').value = '';
+        form.querySelector('[name="DriverId"]').value = '';
+      });
+    </script>
+</body>
+
+</html>
